@@ -5,9 +5,9 @@ const Footer = () => {
 
         {/* Brand */}
         <div className="col-span-2">
-          <h3 className="text-lg font-semibold">&lt;/&gt; Himanxu</h3>
+          <h3 className="text-lg font-semibold">&lt;/&gt; č-Lɪbɾāɾʏ</h3>
           <p className="mt-3 text-sm text-slate-600 max-w-sm">
-            A modern sample platform dedicated to web development.
+            A modern workspace platform dedicated to development.
             Learn, build, and grow with structured roadmaps and projects.
           </p>
         </div>
@@ -48,7 +48,7 @@ const Footer = () => {
 
       {/* Bottom bar */}
       <div className="border-t border-slate-200 py-4 text-center text-sm text-slate-500">
-        © 2026 Himanxu. All rights reserved.
+        © 2026 č-Lɪbɾāɾʏ. All rights reserved.
       </div>
     </footer>
   );

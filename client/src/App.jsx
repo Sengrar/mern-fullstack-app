@@ -4,6 +4,11 @@ import Nav from './components/Navbar';
 import './App.css'
 import Footer from './components/Footer';
 import Home from './pages/Home';
+import About from './pages/About';
+import Services from './pages/Services';
+import Contact from './pages/Contact';
+import Login from './pages/Login';
+import {BrowserRouter, Routes, Route} from 'react-router-dom'
 
 function App() {
   const [data, setdata] = useState("");
@@ -17,10 +22,25 @@ function App() {
 
   return (
     <>
-      <Nav></Nav>
-      <h1 className='bg-black h-14 text-red-500 text-xl'>{data}</h1>
-      <Home></Home>
+    <div className="min-h-screen bg-slate-50 text-slate-900">
+      <BrowserRouter>
+        <Nav></Nav>
+
+        <Routes>
+
+          <Route path='/' element={<Home></Home>}></Route>
+          <Route path='/about' element={<About></About>}></Route>
+          <Route path='/services' element={<Services></Services>}></Route>
+          <Route path='/contact' element={<Contact></Contact>}></Route>
+          <Route path='/login' element={<Login></Login>}></Route>
+
+        </Routes>
+      </BrowserRouter>
+
+      
       <Footer></Footer>
+      <h1 className='bg-black h-14 text-red-500 text-xl'>{data}</h1>
+      </div>
     </>
   )
 }

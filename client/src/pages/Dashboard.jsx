@@ -1,10 +1,10 @@
 
 
-const About =()=>{
+const Dashboard = ()=>{
     return(
         <>
         
         </>
     )
 }
-export default About;
+export default Dashboard;
