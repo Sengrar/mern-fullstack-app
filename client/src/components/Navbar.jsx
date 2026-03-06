@@ -12,7 +12,8 @@ const Nav =()=>{
             <ul className="flex gap-10 text-base">
                 <li><Link className="text-slate-800 hover:text-blue-600 transition" to="/">Home</Link></li>
                 <li><Link className="text-slate-800 hover:text-blue-600 transition" to="/about">About</Link></li>
-                <li><Link className="text-slate-800 hover:text-blue-600 transition" to="/services">Services</Link></li>
+                <li><Link className="text-slate-800 hover:text-blue-600 transition" to="/tutorials">Tutorials</Link></li>
+                <li><Link className="text-slate-800 hover:text-blue-600 transition" to="/blog">Blog</Link></li>
                 <li><Link className="text-slate-800 hover:text-blue-600 transition" to="/contact">Contact</Link></li>
             </ul>
             
