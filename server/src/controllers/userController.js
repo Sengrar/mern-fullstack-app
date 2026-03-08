@@ -1,35 +1,35 @@
 import mongoose from 'mongoose';
-import User from '../model/user.js';
+import User from '../model/User.js';
 import bcryptjs from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 
-export const register = async (req,res)=>{
-    try {
+export const register = async (req, res) => {
+  try {
     const { name, email, password, role } = req.body;
 
-    if(!name || name.length<3){
+    if (!name || name.length < 3) {
       return res.status(400).json({
-        success:false,
-        message:"Name field is required and must be contain atleast 3 charachter"
+        success: false,
+        message: "Name field is required and must be contain atleast 3 charachter"
       })
     }
 
-        if(!email || !password){
+    if (!email || !password) {
       return res.status(400).json({
-        success:false,
-        message:"all fields are required"
+        success: false,
+        message: "all fields are required"
       })
     }
 
     let passRegex = /^(?=.*[A-Z].*[A-Z])(?=.*[!@#$&*])(?=.*[0-9].*[0-9])(?=.*[a-z].*[a-z].*[a-z]).{8,}$/
 
 
- if(!passRegex.test(password)){
-return res.status(400).json({
-        success:false,
-        message:"Greater than 8 characters length,2 letters in Upper Case,1 Special Character (!@#$&*),2 numerals (0-9),3 letters in Lower Case"
+    if (!passRegex.test(password)) {
+      return res.status(400).json({
+        success: false,
+        message: "Greater than 8 characters length,2 letters in Upper Case,1 Special Character (!@#$&*),2 numerals (0-9),3 letters in Lower Case"
       })
-}
+    }
 
     const userExist = await User.findOne({ email });
     if (userExist) {
@@ -45,31 +45,36 @@ return res.status(400).json({
       password: hashedPassword,
       role,
     });
+
+    
+
     res.status(201).json({
       success: true,
       message: "User Registerd successfully!!",
       user,
     });
   } catch (err) {
-    res.status(500).json({
-      success: false,
-      message: err.message,
-    });
+    console.log(err.response.data);
+
+    // res.status(500).json({
+    //   success: false,
+    //   message: err.message,
+    // });
   }
 }
 
 export const login = async (req, res) => {
   const { email, password } = req.body;
   try {
-        if(!email || !password){
+    if (!email || !password) {
       return res.status(400).json({
-        success:false,
-        message:"all fields are required"
+        success: false,
+        message: "all fields are required"
       })
     }
     const userExist = await User.findOne({ email });
     if (!userExist) {
-      return res.status(400).json({
+      return res.status(401).json({
         success: false,
         message: "User not exist,Invalid Credentials",
       });
@@ -78,7 +83,7 @@ export const login = async (req, res) => {
     if (!isMatch) {
       return res.status(400).json({
         success: false,
-        message: "Invalid password,Invalid Credentials",
+        message: "Invalid password,Invalid Credentials"
       });
     }
     const token = jwt.sign(
@@ -87,22 +92,30 @@ export const login = async (req, res) => {
         role: userExist.role,
       },
       process.env.JWT_SECRET,
-      { expiresIn: "1hr" },
+      { expiresIn: "1h" },
     );
     // res.status(201).json({ token });
 
-    res.cookie("token",token,{
-      httpOnly:true
+    res.cookie("token", token, {
+      httpOnly: true
     })
 
     res.status(200).json({
-      success:true,
-      message:"User Login Successfully"
+      success: true,
+      message: "User Login Successfully"
     })
   } catch (err) {
-    res.status(500).json({
-      success: false,
-      message: err.message,
-    });
+    // console.log(err.response?.data || err.message);
+    // console.log(err.response.data);
+
+    const message = err.response?.data?.message || "Something went wrong";
+
+    console.log(message);
+
+
+    // res.status(500).json({
+    //   success: false,
+    //   message: err.message,
+    // });
   }
 };

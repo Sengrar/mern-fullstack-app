@@ -10,13 +10,15 @@ import Blog from './pages/Blog';
 import Services from './pages/Services';
 import Contact from './pages/Contact';
 import Login from './pages/Login';
+import Register from './pages/Register';
+import Dashboard from './pages/Dashboard';
 import {BrowserRouter, Routes, Route} from 'react-router-dom'
 
 function App() {
   const [data, setdata] = useState("");
 
   useEffect(()=>{
-    axios.get("/api/test")
+    axios.get("/api/users")
     .then((res)=>{
       setdata(res.data.message)
     })
@@ -37,13 +39,15 @@ function App() {
           <Route path='/services' element={<Services></Services>}></Route>
           <Route path='/contact' element={<Contact></Contact>}></Route>
           <Route path='/login' element={<Login></Login>}></Route>
+          <Route path='/register' element={<Register></Register>}></Route>
+          <Route path='/dashboard' element={<Dashboard></Dashboard>}></Route>
 
         </Routes>
       </BrowserRouter>
 
       
       <Footer></Footer>
-      <h1 className='bg-black h-14 text-red-500 text-xl'>{data}</h1>
+      {/* <h1 className='bg-black h-14 text-red-500 text-xl'>{data}</h1> */}
       </div>
     </>
   )

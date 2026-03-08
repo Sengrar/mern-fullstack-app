@@ -37,7 +37,7 @@ const Home = ()=>{
           </Link>
 
           <Link
-            to="/login"
+            to="/register"
             className="px-6 py-3 rounded-lg border border-slate-300 hover:bg-slate-100 transition font-medium"
           >
             Make Your Team

@@ -1,53 +1,49 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 const Login =()=>{
-    const [name, setName] = useState("");
-    const [email, setEmail] = useState("");
-    const [role, setRole] = useState("");
-    const [pass, setPass] = useState("");
+    const navigate = useNavigate();
 
-    const nameHandler = (e)=>{
-        setName(e.target.value)
-    }
+    const [email, setEmail] = useState("");
+    const [password, setPass] = useState("");
 
     const emailHandler = (e)=>{
         setEmail(e.target.value)
-    }
-
-    const roleHandler = (e)=>{
-        setRole(e.target.value)
     }
 
     const passHandler =(e)=>{
         setPass(e.target.value)
     }
 
-    const submitHandler =(e)=>{
+    const submitHandler = async (e)=>{
         e.preventDefault();
 
-        console.log(name);
         console.log(email);
-        console.log(role);
+        const payload = {email, password}
+
+        try{
+            const res = await axios.post("/api/users/login", payload, {withCredentials: true});
+            console.log(res.data);
+
+            navigate("/dashboard");
+        }
+        catch(err){
+            console.log(err);
+            
+        }
     }
     return(
         <>
             <form action="" onSubmit={submitHandler}>
                 <h1>Login</h1>
 
-                <label htmlFor="">Name</label>
-                <input type="text" value={name} onChange={nameHandler} placeholder="Enter Your Name" />
-
-                <br /><br />
                 <label htmlFor="">Email</label>
                 <input type="email" value={email} onChange={emailHandler} placeholder="Enter Your Email" />
 
                 <br /><br />
-                <label htmlFor="">Role</label>
-                <input type="text" onChange={roleHandler} placeholder="Enter Your Role" />
-
-                <br /><br />
                 <label htmlFor="">Password</label>
-                <input type="password" placeholder="Enter Your Password" />
+                <input type="password" value={password} onChange={passHandler} placeholder="Enter Your Password" />
 
                 <br /><br />
 
