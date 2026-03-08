@@ -1,39 +1,46 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import { useContext } from "react";
+import { AuthContext } from "../context/AuthContext";
 
-const Login =()=>{
+const Login = () => {
     const navigate = useNavigate();
+    const {fetchUser} = useContext(AuthContext);
 
     const [email, setEmail] = useState("");
     const [password, setPass] = useState("");
 
-    const emailHandler = (e)=>{
+    const emailHandler = (e) => {
         setEmail(e.target.value)
     }
 
-    const passHandler =(e)=>{
+    const passHandler = (e) => {
         setPass(e.target.value)
     }
 
-    const submitHandler = async (e)=>{
+    const submitHandler = async (e) => {
         e.preventDefault();
 
         console.log(email);
-        const payload = {email, password}
+        const payload = { email, password }
 
-        try{
-            const res = await axios.post("/api/users/login", payload, {withCredentials: true});
+        try {
+            const res = await axios.post("/api/users/login", payload, { withCredentials: true });
             console.log(res.data);
 
-            navigate("/dashboard");
+            // navigate("/dashboard");
+            if (res.data.success) {
+                await fetchUser();
+                navigate("/dashboard");
+            }
         }
-        catch(err){
+        catch (err) {
             console.log(err);
-            
+
         }
     }
-    return(
+    return (
         <>
             <form action="" onSubmit={submitHandler}>
                 <h1>Login</h1>

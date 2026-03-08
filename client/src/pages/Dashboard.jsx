@@ -1,28 +1,31 @@
-import { useState, useEffect } from "react";
+import { useContext } from "react";
+import { AuthContext } from "../context/AuthContext";
 import axios from "axios";
 
 const Dashboard = ()=>{
 
-    const [user, setUser]= useState(null);
+    const {user} = useContext(AuthContext);
 
-    useEffect(()=>{
-        const fetchProfile = async()=>{
-            try{
-                const res = await axios.get("/api/users/dashboard", {
-                    withCredentials: true
-                });
-                setUser(res.data.user);
-                // console.log(res.data.user);
+    // const [user, setUser]= useState(null);
+
+    // useEffect(()=>{
+    //     const fetchProfile = async()=>{
+    //         try{
+    //             const res = await axios.get("/api/users/dashboard", {
+    //                 withCredentials: true
+    //             });
+    //             setUser(res.data.user);
+    //             // console.log(res.data.user);
                 
-            }
-            catch(err){
-                console.log(err.response?.data?.message);
-                console.log(err);
+    //         }
+    //         catch(err){
+    //             console.log(err.response?.data?.message);
+    //             console.log(err);
                  
-            }
-        };
-        fetchProfile();
-    }, []);
+    //         }
+    //     };
+    //     fetchProfile();
+    // }, []);
 
     const logoutHandler = async()=>{
         await axios.post("/api/users/logout", {}, {withCredentials: true});

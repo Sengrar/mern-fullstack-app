@@ -12,6 +12,7 @@ import Contact from './pages/Contact';
 import Login from './pages/Login';
 import Register from './pages/Register';
 import Dashboard from './pages/Dashboard';
+import ProtectedRoute from './components/ProtectedRoute';
 import {BrowserRouter, Routes, Route} from 'react-router-dom'
 
 function App() {
@@ -40,7 +41,7 @@ function App() {
           <Route path='/contact' element={<Contact></Contact>}></Route>
           <Route path='/login' element={<Login></Login>}></Route>
           <Route path='/register' element={<Register></Register>}></Route>
-          <Route path='/dashboard' element={<Dashboard></Dashboard>}></Route>
+          <Route path='/dashboard' element={<ProtectedRoute><Dashboard /></ProtectedRoute>}></Route>
 
         </Routes>
       </BrowserRouter>
