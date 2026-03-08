@@ -23,11 +23,19 @@ const Dashboard = ()=>{
         };
         fetchProfile();
     }, []);
+
+    const logoutHandler = async()=>{
+        await axios.post("/api/users/logout", {}, {withCredentials: true});
+
+        window.location.href = "/login";
+    }
     return(
         <>
             <h1>Dashboard</h1>
 
             <h2>Welcome {user?.name}👋</h2>
+            <br />
+            <button onClick={logoutHandler}>Logout</button>
         </>
     )
 }

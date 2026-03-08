@@ -11,9 +11,19 @@ router.get('/dashboard', authMiddleware, (req,res)=>{
         success:true,
         message:"Profile Fetched Successfully!!",
         user: req.user
-    })
-    console.log(`authMiddleware executed`);
-    
+    })   
 });
+
+router.post('/logout', (req,res)=>{
+    res.cookie('token', "", {
+        httpOnly: true,
+        expires: new Date(0)
+    });
+
+    res.status(200).json({
+        success: true,
+        message: "Logged Out Successfully!!!"
+    });
+})
 
 export default router;
