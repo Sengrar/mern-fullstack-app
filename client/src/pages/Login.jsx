@@ -1,12 +1,12 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
+// import axios from "axios";
 import { useContext } from "react";
 import { AuthContext } from "../context/AuthContext";
 
 const Login = () => {
     const navigate = useNavigate();
-    const {fetchUser} = useContext(AuthContext);
+    const { fetchUser } = useContext(AuthContext);
 
     const [email, setEmail] = useState("");
     const [password, setPass] = useState("");
@@ -25,18 +25,38 @@ const Login = () => {
         console.log(email);
         const payload = { email, password }
 
-        try {
-            const res = await axios.post("/api/users/login", payload, { withCredentials: true });
-            console.log(res.data);
+        // try {
+        //     const res = await axios.post("/api/users/login", payload, { withCredentials: true });
+        //     console.log(res.data);
 
-            // navigate("/dashboard");
-            if (res.data.success) {
+        //     // navigate("/dashboard");
+        //     if (res.data.success) {
+        //         await fetchUser();
+        //         navigate("/dashboard");
+        //     }
+        // }
+
+        try {
+            const res = await fetch("/api/users/login", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(payload),
+                credentials: "include"   // same as axios withCredentials
+            });
+
+            const data = await res.json();
+            console.log(data);
+
+            if (data.success) {
                 await fetchUser();
                 navigate("/dashboard");
             }
         }
+
         catch (err) {
-            console.log(err);
+            console.log(err.message);
 
         }
     }
