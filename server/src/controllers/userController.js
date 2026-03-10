@@ -7,6 +7,13 @@ export const register = async (req, res) => {
   try {
     const { name, email, password, role } = req.body;
 
+    if (!name || !email || !password) {
+      return res.status(400).json({
+        success: false,
+        message: "all fields are required"
+      })
+    }
+
     if (!name || name.length < 3) {
       return res.status(400).json({
         success: false,
@@ -14,12 +21,12 @@ export const register = async (req, res) => {
       })
     }
 
-    if (!email || !password) {
-      return res.status(400).json({
-        success: false,
-        message: "all fields are required"
-      })
-    }
+    // if (!email || !password) {
+    //   return res.status(400).json({
+    //     success: false,
+    //     message: "all fields are required"
+    //   })
+    // }
 
     let passRegex = /^(?=.*[A-Z].*[A-Z])(?=.*[!@#$&*])(?=.*[0-9].*[0-9])(?=.*[a-z].*[a-z].*[a-z]).{8,}$/
 
@@ -46,7 +53,18 @@ export const register = async (req, res) => {
       role,
     });
 
-    
+        const token = jwt.sign(
+      { id: user._id,
+        role: user.role, },
+      process.env.JWT_SECRET,
+      { expiresIn: "1d" }
+    );
+
+    res.cookie("token", token, {
+      httpOnly: true,
+      secure: false,
+      sameSite: "lax"
+    });
 
     res.status(201).json({
       success: true,
@@ -54,7 +72,9 @@ export const register = async (req, res) => {
       user,
     });
   } catch (err) {
-    console.log(err.response.data);
+    const message = err.response?.data?.message || "Something went wrong";
+
+    console.log(message);
 
     // res.status(500).json({
     //   success: false,
@@ -97,7 +117,9 @@ export const login = async (req, res) => {
     // res.status(201).json({ token });
 
     res.cookie("token", token, {
-      httpOnly: true
+      httpOnly: true,
+      secure: false,
+      sameSite: "lax",
     })
 
     res.status(200).json({

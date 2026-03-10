@@ -10,13 +10,16 @@ const Login = () => {
 
     const [email, setEmail] = useState("");
     const [password, setPass] = useState("");
+    const [error, setError] = useState("");
 
     const emailHandler = (e) => {
-        setEmail(e.target.value)
+        setEmail(e.target.value);
+        setError("");
     }
 
     const passHandler = (e) => {
-        setPass(e.target.value)
+        setPass(e.target.value);
+        setError("");
     }
 
     const submitHandler = async (e) => {
@@ -56,27 +59,58 @@ const Login = () => {
         // }
 
         catch (err) {
-            console.log(err.response?.data?.message);
+            const message = err.response?.data?.message || "Something went wrong";
+            console.log(message);
+
+            setError(message);
 
         }
     }
     return (
-        <>
-            <form action="" onSubmit={submitHandler}>
-                <h1>Login</h1>
+        <div className="flex justify-center items-center h-screen bg-gray-100">
 
-                <label htmlFor="">Email</label>
-                <input type="email" value={email} onChange={emailHandler} placeholder="Enter Your Email" />
+            <form
+                onSubmit={submitHandler}
+                className="bg-white p-6 rounded shadow-md w-80"
+            >
 
-                <br /><br />
-                <label htmlFor="">Password</label>
-                <input type="password" value={password} onChange={passHandler} placeholder="Enter Your Password" />
+                <h1 className="text-2xl font-bold mb-4 text-center">
+                    Login
+                </h1>
 
-                <br /><br />
+                {error && (
+                    <div className="bg-red-100 text-red-700 px-3 py-2 rounded mb-3 text-sm">
+                        {error}
+                    </div>
+                )}
 
-                <button type="submit">Submit</button>
+                <label className="block mb-1">Email</label>
+                <input
+                    type="email"
+                    value={email}
+                    onChange={emailHandler}
+                    placeholder="Enter your email"
+                    className="w-full border p-2 rounded mb-3"
+                />
+
+                <label className="block mb-1">Password</label>
+                <input
+                    type="password"
+                    value={password}
+                    onChange={passHandler}
+                    placeholder="Enter your password"
+                    className="w-full border p-2 rounded mb-4"
+                />
+
+                <button
+                    type="submit"
+                    className="w-full bg-blue-500 text-white py-2 rounded hover:bg-blue-600"
+                >
+                    Login
+                </button>
+
             </form>
-        </>
+        </div>
     )
 }
 export default Login;
